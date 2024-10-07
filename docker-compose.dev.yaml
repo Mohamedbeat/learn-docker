@@ -1,5 +1,6 @@
 # version: "3"
 services:
+  my-admin:
   my-app-image:
     build:
       context: .

@@ -1,5 +1,4 @@
 const express = require("express");
-const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
 const os = require("os");
 
@@ -16,42 +15,25 @@ function logger(req, res, next) {
   next(); // Proceed to the next middleware or route handler
 }
 
-const username = process.env.MONGO_INITDB_ROOT_USERNAME;
-const password = process.env.MONGO_INITDB_ROOT_PASSWORD;
-const dbport = process.env.MONGO_INITDB_PORT;
-const DB_URI = `mongodb://${username}:${password}@mongo-db:${dbport}`;
-
-mongoose
-  .connect(DB_URI)
-  .then(() => {
-    console.log("connecting to db");
-  })
-  .catch((err) => {
-    console.log("error connecting to db:", err);
-  });
-
 const port = process.env.PORT || 3000;
 const app = express();
 
 app.use(bodyparser());
 
-app.use("/", logger);
+// app.use("/", logger);
 
-app.get("/", (req, res) => {
+app.get("/admin", (req, res) => {
   const hostname = os.hostname;
-  res.send(`hello world ${hostname}`);
+  res.send(`admin server: ${hostname}`);
 });
 
-app.get("/name/:id", (req, res) => {
-  res.send("hello stalker: " + req.params.id + " happy to see you bruh <3");
-});
-
-app.use("/*", (req, res) => {
-  res.send("Not found app");
-});
-// app.use("*", (req, res) => {
-//   res.send("global Not found coming from app");
+// app.get("/name/:id", (req, res) => {
+//   res.send("hello stalker: " + req.params.id + " happy to see you bruh <3");
 // });
+
+app.use("/admin/*", (req, res) => {
+  res.send("not found admin");
+});
 
 app.listen(port, () => {
   console.log("app listening on port :", port);

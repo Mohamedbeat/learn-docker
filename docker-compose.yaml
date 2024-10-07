@@ -1,5 +1,14 @@
 # version: "3"
 services:
+  my-admin:
+    build:
+      context: ./admin/
+    env_file:
+      - ./admin/.api.env
+    networks:
+      - app-network
+    # ports:
+    #   - "3030:3030"
   my-app-image:
     # container_name: my-app-container
     # build: .
@@ -25,6 +34,7 @@ services:
     image: nginx:stable-alpine
     depends_on:
       - my-app-image
+      # - my-admin
     ports:
       - "8080:80"
     volumes:
@@ -36,19 +46,3 @@ networks:
     driver: bridge
 volumes:
   mongo-volume:
-
-  # redis:
-  #   image: redis
-
-  # postgres-db:
-  #   image: postgres:17
-  #   # environment:
-  #   #   - POSTGRES_USER=myuser
-  #   #   - POSTGRES_PASSWORD=mypassword
-  #   #   - POSTGRES_DB=mydb
-  #   env_file:
-  #     - ./.db.env
-  #   ports:
-  #     - "5432:5432"
-  #   networks:
-  #     - app-network
