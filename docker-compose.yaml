@@ -1,10 +1,10 @@
 # version: "3"
 services:
   my-app-image:
-    container_name: my-app-container
+    # container_name: my-app-container
     # build: .
-    ports:
-      - "4000:3030"
+    # ports:
+    #   - "4000:3030"
     env_file:
       - ./.api.env
     depends_on:

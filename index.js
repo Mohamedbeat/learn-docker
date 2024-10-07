@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const bodyparser = require("body-parser");
+const os = require("os");
 
 function logger(req, res, next) {
   console.log("\x1b[31m", "This text is red!", "\x1b[0m");
@@ -37,7 +38,8 @@ app.use(bodyparser());
 app.use("/", logger);
 
 app.get("/", (req, res) => {
-  res.send("hello world");
+  const hostname = os.hostname;
+  res.send(`hello world ${hostname}`);
 });
 
 app.get("/name/:id", (req, res) => {
